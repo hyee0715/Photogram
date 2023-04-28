@@ -11,6 +11,9 @@ spring:
     hiddenmethod:
       filter:
         enabled: true # GET, POST 뿐 만 아니라 PUT, DELETE 등의 메서드도 사용하기 위한 설정
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
 
   devtools:
     livereload:
