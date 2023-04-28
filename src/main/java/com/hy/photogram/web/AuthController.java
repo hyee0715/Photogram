@@ -32,14 +32,18 @@ public class AuthController {
     }
 
     @PostMapping("/auth/signup")
-    public String signup(@Valid SignupDto signupDto, BindingResult bindingResult) {
+    public String signup(@Valid SignupDto signupDto, BindingResult bindingResult) {     //검사 결과 유효하지 않은 데이터가 발견된 경우 실행
         if (bindingResult.hasErrors()) {
+
+            //오류 메시지를 저장하기 위함
             Map<String, String> errorMap = new HashMap<>();
 
+            //발견한 오류의 개수에 따라 반복문을 돌며 오류 메시지 저장
             for (FieldError error : bindingResult.getFieldErrors()) {
                 errorMap.put(error.getField(), error.getDefaultMessage());
             }
 
+            //간단한 메시지와 함께, 위에서 저장한 오류 메시지를 예외 처리 클래스에게 넘겨줌
             throw new CustomValidationException("유효성 검사에 실패하였습니다.", errorMap);
         }
 

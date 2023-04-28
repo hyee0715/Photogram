@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler(CustomValidationException.class)
+    @ExceptionHandler(CustomValidationException.class) //지정한 예외 발생 시 해당 메소드에서 이를 처리
     public String validationException(CustomValidationException e) {
         return Script.back(e.getErrorMap().toString());
     }

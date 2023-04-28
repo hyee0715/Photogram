@@ -9,8 +9,8 @@ import javax.validation.constraints.Size;
 @Data
 public class SignupDto {
 
-    @Size(min = 2, max = 20)
-    @NotBlank
+    @Size(min = 2, max = 20)    //최소 길이 2, 최대 길이 20
+    @NotBlank   //반드시 입력해야 함
     private String username;
 
     @NotBlank
