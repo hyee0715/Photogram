@@ -38,7 +38,7 @@ public class User {
 
     private String bio;     //사용자 자기소개
 
-    private String profileImageUrl; //사용자 프로필 이미지 경로
+    private String profile_image_url; //사용자 프로필 이미지 경로
 
     private String role;
 

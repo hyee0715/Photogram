@@ -1,5 +1,6 @@
 package com.hy.photogram.handler;
 
+import com.hy.photogram.handler.ex.CustomApiException;
 import com.hy.photogram.handler.ex.CustomValidationApiException;
 import com.hy.photogram.handler.ex.CustomValidationException;
 import com.hy.photogram.util.Script;
@@ -22,5 +23,10 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(CustomValidationApiException.class)
     public ResponseEntity<?> validationApiException(CustomValidationApiException e) {
         return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), e.getErrorMap()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CustomApiException.class)
+    public ResponseEntity<?> apiException(CustomApiException e) {
+        return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
 }
