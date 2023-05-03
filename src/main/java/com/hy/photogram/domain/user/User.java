@@ -1,5 +1,7 @@
 package com.hy.photogram.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hy.photogram.domain.image.Image;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -41,6 +45,10 @@ public class User {
     private String profile_image_url; //사용자 프로필 이미지 경로
 
     private String role;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties({"user"})
+    private List<Image> images = new ArrayList<>();
 
     private LocalDateTime create_date;
 
