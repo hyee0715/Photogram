@@ -1,5 +1,6 @@
 package com.hy.photogram.service;
 
+import com.hy.photogram.domain.subscribe.SubscribeRepository;
 import com.hy.photogram.domain.user.User;
 import com.hy.photogram.domain.user.UserRepository;
 import com.hy.photogram.handler.ex.CustomException;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final SubscribeRepository subscribeRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
@@ -43,6 +45,12 @@ public class UserService {
         userProfileDto.setUser(userEntity);
         userProfileDto.setPageOwnerState(pageUserId == principalUserId);
         userProfileDto.setImageCount(userEntity.getImages().size());
+
+        int subscribeState = subscribeRepository.subscribeState(principalUserId, pageUserId);
+        int subscribeCount = subscribeRepository.subscribeCount(pageUserId);
+
+        userProfileDto.setSubscribeState(subscribeState == 1);
+        userProfileDto.setSubscribeCount(subscribeCount);
 
         return userProfileDto;
     }

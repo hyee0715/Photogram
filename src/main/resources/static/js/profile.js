@@ -11,36 +11,84 @@
  */
 
 // (1) 유저 프로파일 페이지 구독하기, 구독취소
-function toggleSubscribe(obj) {
+function toggleSubscribe(toUserId, obj) {
 	if ($(obj).text() === "구독취소") {
-		$(obj).text("구독하기");
-		$(obj).toggleClass("blue");
+        $.ajax({
+                type: "DELETE",
+                url: "/api/subscribe/" + toUserId,
+                dataType: "json"
+        }).done(resp => {
+                $(obj).text("구독하기");
+                $(obj).toggleClass("blue");
+        }).fail(error => {
+                console.log("구독취소 실패", error);
+        });
 	} else {
-		$(obj).text("구독취소");
-		$(obj).toggleClass("blue");
+	    $.ajax({
+	            type: "POST",
+	            url: "/api/subscribe/" + toUserId,
+	            dataType: "json"
+	    }).done(resp => {
+	            $(obj).text("구독취소");
+	            $(obj).toggleClass("blue");
+	    }).fail(error => {
+	            console.log("구독하기 실패", error);
+	    });
 	}
 }
 
 // (2) 구독자 정보  모달 보기
-function subscribeInfoModalOpen() {
+function subscribeInfoModalOpen(pageUserId) {
 	$(".modal-subscribe").css("display", "flex");
+
+	$.ajax({
+	        url: `/api/user/${pageUserId}/subscribe`,
+	        dataType: "json"
+	}).done(resp => {
+	        console.log(resp);
+	        resp.data.forEach((u) => {
+           	        let item = getSubscribeModalItem(u);
+           			$("#subscribeModalList").append(item);
+           	});
+    }).fail(error => {
+            console.log(error);
+    });
 }
 
-function getSubscribeModalItem() {
+function getSubscribeModalItem(u) {
+	let item = `<div class="subscribe__item" id="subscribeModalItem-${u.id}">
+	<div class="subscribe__img">
+		<img src="/upload/${u.profile_image_url}" onerror="this.src='/images/person.jpeg'" />
+	</div>
+	<div class="subscribe__text">
+		<h2>${u.username}</h2>
+	</div>
+	<div class="subscribe__btn">`;
 
+	if (!u.equal_user_state) {
+		if (u.subscribe_state)
+			item += `<button class="cta blue" onclick="toggleSubscribe(${u.id}, this)">구독취소</button>`
+		else item += `<button class="cta" onclick="toggleSubscribe(${u.id}, this)">구독하기</button>`
+	}
+
+	item += `
+	</div>
+</div>`;
+
+	return item;
 }
 
 
 // (3) 구독자 정보 모달에서 구독하기, 구독취소
-function toggleSubscribeModal(obj) {
-	if ($(obj).text() === "구독취소") {
-		$(obj).text("구독하기");
-		$(obj).toggleClass("blue");
-	} else {
-		$(obj).text("구독취소");
-		$(obj).toggleClass("blue");
-	}
-}
+//function toggleSubscribeModal(obj) {
+//	if ($(obj).text() === "구독취소") {
+//		$(obj).text("구독하기");
+//		$(obj).toggleClass("blue");
+//	} else {
+//		$(obj).text("구독취소");
+//		$(obj).toggleClass("blue");
+//	}
+//}
 
 // (4) 유저 프로파일 사진 변경 (완)
 function profileImageUpload() {
