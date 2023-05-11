@@ -20,7 +20,7 @@ public class SubscribeApiController {
 
     @PostMapping("/api/subscribe/{toUserId}")
     public ResponseEntity<?> subscribe(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long toUserId) {
-        subscribeService.subs(principalDetails. getUser().getId(), toUserId);
+        subscribeService.subs(principalDetails.getUser().getId(), toUserId);
 
         return new ResponseEntity<>(new CMRespDto<>(1, "구독하기 완료", null), HttpStatus.OK);
     }
