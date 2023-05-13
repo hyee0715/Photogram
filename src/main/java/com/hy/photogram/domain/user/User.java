@@ -38,21 +38,21 @@ public class User {
 
     private String gender;
 
-    private String website; //사용자 웹사이트
+    private String website;	//사용자 웹사이트
 
-    private String bio;     //사용자 자기소개
+    private String bio;	//사용자 자기소개
 
-    private String profile_image_url; //사용자 프로필 이미지 경로
+    private String profile_image_url;	//사용자 프로필 이미지 경로
 
     private String role;
 
-    @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties({"user"})
+    @OneToMany(mappedBy = "user")
     private List<Image> images = new ArrayList<>();
 
     private LocalDateTime create_date;
 
-    @PrePersist     //데이터베이스에 INSERT 되기 직전에 실행
+    @PrePersist	//데이터베이스에 INSERT 되기 직전에 실행
     public void createDate() {
         this.create_date = LocalDateTime.now();
     }

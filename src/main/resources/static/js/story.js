@@ -7,18 +7,87 @@
 	(5) 댓글삭제
  */
 
+let page = 0;
+
 // (1) 스토리 로드하기
 function storyLoad() {
-
+	$.ajax({
+		url: `/api/image?page=${page}`,
+		dataType: "json"
+	}).done(resp => {
+		console.log(resp);
+		resp.data.content.forEach((image) => {
+			let item = getStoryItem(image);
+			$("#storyList").append(item);
+		});
+	}).fail(error => {
+		console.log(error);
+	});
 }
 
-function getStoryItem() {
+storyLoad();
 
+function getStoryItem(image) {
+	let item = `<div class="story-list__item">
+	<div class="sl__item__header">
+		<div>
+			<img class="profile-image" src="/upload/${image.user.profile_image_url}"
+				onerror="this.src='/images/person.jpeg'" />
+		</div>
+		<div>${image.user.username}</div>
+	</div>
+
+	<div class="sl__item__img">
+		<img src="/upload/${image.post_image_url}" />
+	</div>
+
+	<div class="sl__item__contents">
+		<div class="sl__item__contents__icon">
+
+			<button>
+				<i class="fas fa-heart active" id="storyLikeIcon-1" onclick="toggleLike()"></i>
+			</button>
+		</div>
+
+		<span class="like"><b id="storyLikeCount-1">3 </b>likes</span>
+
+		<div class="sl__item__contents__content">
+			<p>${image.caption}</p>
+		</div>
+
+		<div id="storyCommentList-1">
+
+			<div class="sl__item__contents__comment" id="storyCommentItem-1"">
+				<p>
+					<b>Lovely :</b> 부럽습니다.
+				</p>
+
+				<button>
+					<i class="fas fa-times"></i>
+				</button>
+
+			</div>
+
+		</div>
+
+		<div class="sl__item__input">
+			<input type="text" placeholder="댓글 달기..." id="storyCommentInput-1" />
+			<button type="button" onClick="addComment()">게시</button>
+		</div>
+
+	</div>
+</div>`
+
+	return item;
 }
 
 // (2) 스토리 스크롤 페이징하기
 $(window).scroll(() => {
-
+	let checkScroll = $(window).scrollTop() - ($(document).height() - $(window).height());
+	if(checkScroll > 0){
+		page++;
+		storyLoad();
+	}
 });
 
 
@@ -68,9 +137,4 @@ function addComment() {
 function deleteComment() {
 
 }
-
-
-
-
-
 
