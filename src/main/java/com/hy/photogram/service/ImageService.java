@@ -43,6 +43,16 @@ public class ImageService {
 
     @Transactional(readOnly = true)
     public Page<Image> story(Long principalId, Pageable pageable) {
-        return imageRepository.story(principalId, pageable);
+        Page<Image> images = imageRepository.story(principalId, pageable);
+
+        images.forEach((image) -> {
+            image.setLikesCount(image.getLikes().size());
+            image.getLikes().forEach((like) -> {
+                if (like.getUser().getId() == principalId)
+                    image.setLikesState(true);
+            });
+        });
+
+        return images;
     }
 }

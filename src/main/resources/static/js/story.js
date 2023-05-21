@@ -43,13 +43,17 @@ function getStoryItem(image) {
 
 	<div class="sl__item__contents">
 		<div class="sl__item__contents__icon">
+			<button>`;
 
-			<button>
-				<i class="fas fa-heart active" id="storyLikeIcon-1" onclick="toggleLike()"></i>
+			if(image.likesState)
+				item += `<i class="fas fa-heart active" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>`;
+			else  item += `<i class="far fa-heart" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>`;
+
+	item += `
 			</button>
 		</div>
 
-		<span class="like"><b id="storyLikeCount-1">3 </b>likes</span>
+		<span class="like"><b id="storyLikeCount-${image.id}">${image.likesCount}</b>likes</span>
 
 		<div class="sl__item__contents__content">
 			<p>${image.caption}</p>
@@ -92,16 +96,36 @@ $(window).scroll(() => {
 
 
 // (3) 좋아요, 안좋아요
-function toggleLike() {
-	let likeIcon = $("#storyLikeIcon-1");
+function toggleLike(imageId) {
+	let likeIcon = $(`#storyLikeIcon-${imageId}`);
 	if (likeIcon.hasClass("far")) {
-		likeIcon.addClass("fas");
-		likeIcon.addClass("active");
-		likeIcon.removeClass("far");
+		$.ajax({
+			type: "POST",
+			url: `/api/image/${imageId}/likes`,
+			dataType: "json"
+		}).done(resp => {
+			$(`#storyLikeCount-${imageId}`).text(Number($(`#storyLikeCount-${imageId}`).text()) + 1);
+
+			likeIcon.addClass("fas");
+			likeIcon.addClass("active");
+			likeIcon.removeClass("far");
+		}).fail(error => {
+			console.log(error);
+		});
 	} else {
-		likeIcon.removeClass("fas");
-		likeIcon.removeClass("active");
-		likeIcon.addClass("far");
+		$.ajax({
+			type: "DELETE",
+			url: `/api/image/${imageId}/likes`,
+			dataType: "json"
+		}).done(resp => {
+			$(`#storyLikeCount-${imageId}`).text(Number($(`#storyLikeCount-${imageId}`).text()) - 1);
+
+			likeIcon.removeClass("fas");
+			likeIcon.removeClass("active");
+			likeIcon.addClass("far");
+		}).fail(error => {
+			console.log(error);
+		});
 	}
 }
 
@@ -137,4 +161,3 @@ function addComment() {
 function deleteComment() {
 
 }
-
