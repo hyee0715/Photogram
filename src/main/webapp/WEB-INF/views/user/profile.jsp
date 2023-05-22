@@ -9,13 +9,21 @@
 
 		<!--유저이미지-->
 		<div class="profile-left">
-			<div class="profile-img-wrap story-border" onclick="popup('.modal-image')">
-				<form id="userProfileImageForm">
-					<input type="file" name="profileImageFile" style="display: none;" id="userProfileImageInput" />
-				</form>
-
-				<img class="profile-image" src="#" onerror="this.src='/images/person.jpeg'" id="userProfileImage" />
-			</div>
+			<c:choose>
+				<c:when test="${dto.user.id eq principal.user.id}">
+					<div class="profile-img-wrap story-border" onclick="popup('.modal-image')">
+						<form id="userProfileImageForm">
+							<input type="file" name="profileImageFile" style="display: none;" id="userProfileImageInput" />
+						</form>
+						<img class="profile-image" src="/upload/${dto.user.profile_image_url}" onerror="this.src='/images/person.jpeg'" id="userProfileImage" />
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="profile-img-wrap story-border">
+						<img class="profile-image" src="/upload/${dto.user.profile_image_url}" onerror="this.src='/images/person.jpeg'" id="userProfileImage" />
+					</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<!--유저이미지end-->
 
@@ -78,7 +86,7 @@
 						<a href=""> <img src="/upload/${image.post_image_url}" />
 						</a>
 						<div class="comment">
-							<a href="#" class=""> <i class="fas fa-heart"></i><span>0</span>
+							<a href="#" class=""> <i class="fas fa-heart"></i><span>${image.likesCount}</span>
 							</a>
 						</div>
 					</div>
@@ -104,7 +112,7 @@
 <div class="modal-image" onclick="modalImage()">
 	<div class="modal">
 		<p>프로필 사진 바꾸기</p>
-		<button onclick="profileImageUpload()">사진 업로드</button>
+		<button onclick="profileImageUpload(${principal.user.id})">사진 업로드</button>
 		<button onclick="closePopup('.modal-image')">취소</button>
 	</div>
 </div>
@@ -120,9 +128,7 @@
 			</button>
 		</div>
 
-		<div class="subscribe-list" id="subscribeModalList">
-
-		</div>
+		<div class="subscribe-list" id="subscribeModalList"></div>
 	</div>
 
 </div>
