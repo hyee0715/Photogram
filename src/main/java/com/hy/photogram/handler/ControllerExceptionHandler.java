@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
+    /* 유효성 검사 예외 */
     @ExceptionHandler(CustomValidationException.class) //지정한 예외 발생 시 해당 메소드에서 이를 처리
     public String validationException(CustomValidationException e) {
         if (e.getErrorMap() == null) {
@@ -25,6 +26,7 @@ public class ControllerExceptionHandler {
         }
     }
 
+    /* 유효성 검사 예외(api) */
     @ExceptionHandler(CustomValidationApiException.class)
     public ResponseEntity<?> validationApiException(CustomValidationApiException e) {
         return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), e.getErrorMap()), HttpStatus.BAD_REQUEST);

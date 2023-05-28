@@ -20,11 +20,13 @@ public class ImageController {
 
     private final ImageService imageService;
 
+    /* 스토리 페이지 */
     @GetMapping({"/", "/image/story"})
     public String story() {
         return "image/story";
     }
 
+    /* 인기 페이지 */
     @GetMapping("/image/popular")
     public String popular(Model model) {
         List<Image> images = imageService.popular();
@@ -33,11 +35,13 @@ public class ImageController {
         return "image/popular";
     }
 
+    /* 이미지 업로드 페이지 */
     @GetMapping("/image/upload")
     public String upload() {
         return "image/upload";
     }
 
+    /* 이미지 업로드 */
     @PostMapping("/image")
     public String imageUpload(ImageUploadDto imageUploadDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         if (imageUploadDto.getFile().isEmpty()) {

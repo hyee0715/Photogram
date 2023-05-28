@@ -30,6 +30,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -41,6 +45,8 @@
 			<a href="/" class="logo">
 				<img src="/images/logo.jpg" alt="">
 			</a>
+			<input type="text" id="search" name="search" placeholder="검색"
+				onkeypress="if(window.event.keyCode==13){searchProfile()}">
 			<nav class="navi">
 				<ul class="navi-list">
 					<li class="navi-item"><a href="/">
@@ -56,3 +62,5 @@
 			</nav>
 		</div>
 	</header>
+
+<script src="/js/profile.js"></script>

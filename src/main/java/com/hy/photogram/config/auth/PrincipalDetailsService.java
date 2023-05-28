@@ -14,11 +14,11 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    /* Spring Security 로그인 */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User userEntity = userRepository.findByUsername(username);
 
         return new PrincipalDetails(userEntity);
     }
-
 }

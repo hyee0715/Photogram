@@ -19,6 +19,7 @@ public class SubscribeService {
     private final SubscribeRepository subscribeRepository;
     private final EntityManager em;
 
+    /* 구독하기 */
     @Transactional
     public void subs(Long fromUserId, Long toUserId) {
         try {
@@ -28,11 +29,13 @@ public class SubscribeService {
         }
     }
 
+    /* 구독취소 */
     @Transactional
     public void unSubs(Long fromUserId, Long toUserId) {
         subscribeRepository.unSubscribe(fromUserId, toUserId);
     }
 
+    /* 구독목록 */
     @Transactional(readOnly = true)
     public List<SubscribeDto> subscribeList(Long principalId, Long pageUserId) {
 

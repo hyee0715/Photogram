@@ -2,6 +2,7 @@ package com.hy.photogram.util;
 
 public class Script {
 
+    /* 유효성 검사 실패 */
     public static String back(String msg) {
         StringBuffer sb = new StringBuffer();
         sb.append("<script>");

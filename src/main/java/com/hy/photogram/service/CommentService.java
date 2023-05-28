@@ -17,6 +17,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
+    /* 댓글 작성 */
     @Transactional
     public Comment writeComment(String content, Long imageId, Long userId) {
         Image image = new Image();
@@ -34,6 +35,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    /* 댓글 삭제 */
     @Transactional
     public void deleteComment(Long commentId) {
         try {

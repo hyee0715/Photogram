@@ -24,6 +24,7 @@ public class CommentApiController {
 
     private final CommentService commentService;
 
+    /* 댓글 작성 */
     @PostMapping("/api/comment")
     public ResponseEntity<?> writeComment(@Valid @RequestBody CommentDto commentDto, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Comment comment = commentService.writeComment(commentDto.getContent(), commentDto.getImageId(), principalDetails.getUser().getId());
@@ -31,6 +32,7 @@ public class CommentApiController {
         return new ResponseEntity<>(new CMRespDto<>(1, "댓글 쓰기 성공", comment), HttpStatus.CREATED);
     }
 
+    /* 댓글 삭제 */
     @DeleteMapping("/api/comment/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);

@@ -23,6 +23,7 @@ public class ImageApiController {
     private final ImageService imageService;
     private final LikesService likesService;
 
+    /* 스토리 페이지 */
     @GetMapping("/api/image")
     public ResponseEntity<?> story(@AuthenticationPrincipal PrincipalDetails principalDetails,
                                    @PageableDefault(size = 3) Pageable pageable) {
@@ -30,12 +31,14 @@ public class ImageApiController {
         return new ResponseEntity<>(new CMRespDto<>(1, "이미지 스토리 불러오기 성공", images), HttpStatus.OK);
     }
 
+    /* 게시글 좋아요 */
     @PostMapping("/api/image/{imageId}/likes")
     public ResponseEntity<?> likes(@PathVariable Long imageId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         likesService.likes(imageId, principalDetails.getUser().getId());
         return new ResponseEntity<>(new CMRespDto<>(1, "좋아요 성공", null), HttpStatus.CREATED);
     }
 
+    /* 게시글 좋아요 해제 */
     @DeleteMapping("/api/image/{imageId}/likes")
     public ResponseEntity<?> unLikes(@PathVariable Long imageId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         likesService.unLikes(imageId, principalDetails.getUser().getId());

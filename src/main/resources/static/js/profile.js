@@ -10,6 +10,34 @@
   (8) 구독자 정보 모달 닫기
  */
 
+function searchProfile() {
+	let name = document.getElementById('search').value;
+
+	$.ajax({
+		type: "GET",
+		url: "/api/search/" + name,
+		dataType: "json"
+	})
+	.done(resp => {
+		console.log(resp);
+		resp.data.forEach((search) => {
+			let item = getSearchItem(search);
+			$("#searchList").append(item);
+		});
+	})
+	.fail(error => {
+		console.log("프로필 검색 실패", error);
+	})
+}
+
+function getSearchItem(search) {
+	let item = `
+
+	`;
+
+	return item;
+}
+
 // (1) 유저 프로파일 페이지 구독하기, 구독취소
 function toggleSubscribe(toUserId, obj) {
 	if ($(obj).text() === "구독취소") {
@@ -38,7 +66,7 @@ function toggleSubscribe(toUserId, obj) {
 	}
 }
 
-// (2) 구독자 정보  모달 보기
+// (2) 구독자 정보 모달 보기
 function subscribeInfoModalOpen(pageUserId) {
 	$(".modal-subscribe").css("display", "flex");
 

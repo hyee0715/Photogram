@@ -18,6 +18,7 @@ public class SubscribeApiController {
 
     private final SubscribeService subscribeService;
 
+    /* 구독하기 */
     @PostMapping("/api/subscribe/{toUserId}")
     public ResponseEntity<?> subscribe(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long toUserId) {
         subscribeService.subs(principalDetails.getUser().getId(), toUserId);
@@ -25,6 +26,7 @@ public class SubscribeApiController {
         return new ResponseEntity<>(new CMRespDto<>(1, "구독하기 완료", null), HttpStatus.OK);
     }
 
+    /* 구독취소 */
     @DeleteMapping("/api/subscribe/{toUserId}")
     public ResponseEntity<?> unSubscribe(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long toUserId) {
         subscribeService.unSubs(principalDetails.getUser().getId(), toUserId);

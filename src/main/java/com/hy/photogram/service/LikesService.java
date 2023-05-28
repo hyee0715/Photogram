@@ -11,11 +11,13 @@ public class LikesService {
 
     private final LikesRepository likesRepository;
 
+    /* 게시글 좋아요 */
     @Transactional
     public void likes(Long imageId, Long principalId) {
         likesRepository.likes(imageId, principalId);
     }
 
+    /* 게시글 좋아요 해제 */
     @Transactional
     public void unLikes(Long imageId, Long principalId) {
         likesRepository.unLikes(imageId, principalId);

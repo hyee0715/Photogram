@@ -5,6 +5,7 @@
   text-decoration: none;
   list-style: none;
   outline: none;
+  font-family: 'Nanum Gothic', sans-serif;
 }
 
 .header {
@@ -53,4 +54,18 @@
   .header .container {
     width: 100%;
   }
+}
+
+#search {
+	width: 200px;
+	height: 30px;
+	background-color: #F8F9F9;
+	border: solid 1px #D7DBDD;
+	border-radius: 2px;
+	padding: 5px;
+}
+
+#search::placeholder {
+	text-align: center;
+	vertical-align: middle;
 }

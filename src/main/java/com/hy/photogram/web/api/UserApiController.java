@@ -33,6 +33,15 @@ public class UserApiController {
     private final UserService userService;
     private final SubscribeService subscribeService;
 
+    /* 프로필 검색 */
+    @GetMapping("/api/search/{name}")
+    public ResponseEntity<?> searchProfile(@PathVariable String name) {
+        List<User> userEntityList = userService.search(name);
+
+        return new ResponseEntity<>(new CMRespDto<>(1, "사용자 프로필 검색 성공", userEntityList), HttpStatus.OK);
+    }
+
+    /* 회원정보 수정 */
     @PutMapping("/api/user/{id}")
     public CMRespDto<?> update(
             @PathVariable Long id,
@@ -46,6 +55,7 @@ public class UserApiController {
         return new CMRespDto<>(1, "회원수정 완료", userEntity);
     }
 
+    /* 사용자 구독 목록 출력 */
     @GetMapping("/api/user/{pageUserId}/subscribe")
     public ResponseEntity<?> subscribeList(@PathVariable Long pageUserId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<SubscribeDto> subscribeDto = subscribeService.subscribeList(principalDetails.getUser().getId(), pageUserId);
@@ -53,6 +63,7 @@ public class UserApiController {
         return new ResponseEntity<>(new CMRespDto<>(1, "구독 정보 목록 가져오기 성공", subscribeDto), HttpStatus.OK);
     }
 
+    /* 사용자 프로필 이미지 변경 */
     @PutMapping("/api/user/{principalId}/profileImageUrl")
     public ResponseEntity<?> profileImageUpdate(@PathVariable Long principalId, MultipartFile profileImageFile, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         User userEntity = userService.profileImageUpdate(principalId, profileImageFile);
